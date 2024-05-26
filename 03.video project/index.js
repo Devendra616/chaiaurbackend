@@ -10,7 +10,20 @@ dotenv.config({
 });
 
 // connect to the database
-connectDB();
+const PORT = process.env.PORT || 8000;
+connectDB()
+  .then(() => {
+    app.on("error", (err) => {
+      console.log("ERROR: error connecting to express", err);
+    });
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port : ${PORT}`);
+    });
+  })
+  .catch((err) => {
+    console.log("ERROR: MongoDb connection failed !!!", err);
+  });
 
 /* import express from "express";
 import { DB_NAME } from "./src/constants.js";
